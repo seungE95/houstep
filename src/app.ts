@@ -1,7 +1,8 @@
 import * as dotenv from "dotenv";
 import express,{Request, Response, NextFunction} from "express";
 import cors from "cors";
-import sequelize from "./db/models";
+import {sequelize} from "./db/models";
+import router from "./routers/index";
 
 dotenv.config();
 /**
@@ -21,6 +22,8 @@ app.use((req:Request,res:Response,next:NextFunction) => {
     next();
 })
 // 라우터 설정
+app.use(router);
+
 /**
  * Server Activation
  */

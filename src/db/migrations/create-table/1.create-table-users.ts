@@ -1,9 +1,9 @@
-import {Users} from '../../models/domain/tables';
+import {User} from '../../models/domain/tables';
 
-console.log("======Create User Table======");
+console.log("======Create Users Table======");
 
 const create_table_users = async() => {
-    await Users.sync({force : true})
+    await User.sync({force : true})
     .then(() => {
         console.log("✅Success Create User Table");
     })
