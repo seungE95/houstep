@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import ExcelService from "../services/excel.service";
 
-
-
 class ExcelController {
     excelService = new ExcelService;
 
