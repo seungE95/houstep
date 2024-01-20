@@ -18,10 +18,10 @@ export class User extends Model<UserAttributes>{
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     
-    declare orders?: NonAttribute<Order[]>;
+    declare order?: NonAttribute<Order[]>;
 
     public static associations: {
-        orders: Association<User, Order>;
+        order: Association<User, Order>;
     };
 }
 
@@ -29,7 +29,7 @@ export class Order extends Model<OrderAttributes>{
     public readonly orderId? : number;
     public orderDate! : string;
     public orderType! : string;
-    public orderPrice! : number;
+    public orderPrice! : string;
 
     public userId!: ForeignKey<User["userId"]>;
     
@@ -37,10 +37,10 @@ export class Order extends Model<OrderAttributes>{
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 
-    declare users?: NonAttribute<User[]>;
+    declare user?: NonAttribute<User[]>;
     
     public static associations: {
-        users: Association<Order, User>;
+        user: Association<Order, User>;
     };
 }
 
@@ -73,7 +73,7 @@ Order.init(
     {
         orderId : {
             type : DataTypes.INTEGER,
-            autoIncrement : true,
+            autoIncrement: true,
             primaryKey: true,
         },
         orderDate : {
@@ -102,7 +102,13 @@ Order.init(
 User.hasMany(Order, {
     sourceKey: "userId",
     foreignKey : 'userId',
-    as: "order",
+    as: "orders",
+})
+
+Order.hasOne(User, {
+    sourceKey: "userId",
+    foreignKey : 'userId',
+    as: "users",
 })
 
 Order.belongsTo(User, { foreignKey: "userId"});

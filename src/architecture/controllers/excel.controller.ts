@@ -6,7 +6,6 @@ class ExcelController {
 
     excelRegister = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            //*********** 타입 수정 하기 *******************
             const Files:any = req.files;
             //customer.csv
             const file1:string = Files.file1[0].path;

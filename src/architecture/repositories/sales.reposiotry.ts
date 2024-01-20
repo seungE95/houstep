@@ -1,6 +1,5 @@
 import { Order } from "../../db/models/domain/tables"
 
-
 class SalesRepository {
     monthlySales = async () => {
         return Order.findAll({

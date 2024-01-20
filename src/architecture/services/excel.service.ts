@@ -16,10 +16,9 @@ class ExcelService{
         const jsonFile1 = await csvtojson().fromString(rocalFile1);
         const jsonFile2 = await csvtojson().fromString(rocalFile2);
         
-        let result1:any, result2:any;
         return{
-            result1: await this.excelRepository.file2Register(jsonFile2),
-            result2: await this.excelRepository.file1Register(jsonFile1)
+            result1: await this.excelRepository.file1Register(jsonFile1),
+            result2: await this.excelRepository.file2Register(jsonFile2)
         }
 
     }
