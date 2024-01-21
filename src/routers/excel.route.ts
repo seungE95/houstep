@@ -4,6 +4,10 @@ import multer from "multer";
 import * as fs from "fs";
 import path from "path";
 
+const excelRouter = express.Router();
+const excelController = new ExcelController();
+
+//미들웨어 처리 (수정)
 const storage = multer.diskStorage({
         destination: (req, file, cb) => {
             const uploadPath = path.resolve(__dirname,  "../storage");
@@ -19,9 +23,6 @@ const upload = multer({ storage: storage}).fields([
     { name: 'file1', maxCount: 1},
     { name: 'file2', maxCount: 1}
 ])
-
-const excelRouter = express.Router();
-const excelController = new ExcelController();
 
 excelRouter.post("/upload", upload, excelController.excelRegister);
 

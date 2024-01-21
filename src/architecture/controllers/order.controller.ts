@@ -12,7 +12,7 @@ class OrderController {
             if(!pageNo || pageNo === null) pageNo = 1;
             if(!orderType || orderType === null){
                 orderType = "all";
-            } else if(orderType === 0){
+            } else if(orderType === "0"){
                 orderType = "order";
             } else{
                 orderType = "refund";

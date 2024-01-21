@@ -102,13 +102,7 @@ Order.init(
 User.hasMany(Order, {
     sourceKey: "userId",
     foreignKey : 'userId',
-    as: "orders",
-})
-
-Order.hasOne(User, {
-    sourceKey: "userId",
-    foreignKey : 'userId',
-    as: "users",
+    as: "order",
 })
 
 Order.belongsTo(User, { foreignKey: "userId"});
