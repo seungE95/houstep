@@ -7,7 +7,7 @@ class SalesController {
     monthlySales = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await this.salesService.monthlySales();
-            res.status(200).json(result);
+            return res.status(200).json(result);
         } catch (error) {
             next(error);
         }

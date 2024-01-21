@@ -7,18 +7,19 @@ class ExcelController {
     excelRegister = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const Files:any = req.files;
-            //customer.csv
-            const file1:string = Files.file1[0].path;
-            //order.csv
-            const file2:string = Files.file2[0].path;
-            
-            //파일이 존재 하지 않을 경우 err Messages
-            if(!file1 || !file2) {
-                return res.status(400).send("Customer or Order file not found");
+
+            //파일이 존재 하지 않을 경우 err Messages,
+            if(!Object.keys(Files).length){
+                throw new Error("Bad Request");
             }
-            const result = await this.excelService.excelRegister(file1, file2);
-            console.log(result);
-            return res.status(200).send("DB에 저장이 완료 되었습니다.");
+            //customer.csv
+            const customerFile:string = Files.file1[0].path;
+            //order.csv
+            const orderFile:string = Files.file2[0].path;
+            
+            await this.excelService.excelRegister(customerFile, orderFile);
+            
+            return res.status(200).json({"message": "DB에 저장이 완료 되었습니다."});
 
         } catch (error) {
             next(error);

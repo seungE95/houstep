@@ -2,8 +2,8 @@ import { Order, User } from "../../db/models/domain/tables";
 
 class ExcelRepository{
     file1Register = async (file1:any) => {
-        return await file1.forEach((element: { [x: string]: any; }) => {
-             User.create({
+        await file1.map((element: { [x: string]: any; }) => {
+            User.create({
                 userId: parseInt(element['고객 id']),
                 userName: element['고객명'],
                 userClass: element['고객등급'],
@@ -12,7 +12,7 @@ class ExcelRepository{
     }
 
     file2Register = async (file2:any) => {
-        return await file2.forEach((ele: { [x: string]: any; }) => {
+        await file2.map((ele: { [x: string]: any; }) => {
             Order.create({
                 userId: parseInt(ele['주문고객 id']),
                 orderDate: ele['주문일자'],
@@ -21,7 +21,6 @@ class ExcelRepository{
             })
         });
     }
-
 }
 
 export default ExcelRepository;

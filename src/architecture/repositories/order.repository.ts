@@ -2,9 +2,18 @@ import { Order, User } from "../../db/models/domain/tables";
 import { Op } from "sequelize";
 
 class OrderRepository{
-    orderList = async (startDate:string, endDate:string, orderType:string, customerId:number,pageSize:number, pageNo:number) => {
+    orderList = async (startDate:string, endDate:string, orderType:string, customerId:number, pageSize:number, pageNo:number) => {
+        let obj ={};
+        let arr:Array<Object> = [];
         if(orderType === "all"){
-            return await Order.findAll({
+            const userData = await User.findOne({
+                    attributes: ["userName", "userClass"],
+                    where: {
+                        userId: customerId
+                    }
+            });
+
+            const orderData = await Order.findAndCountAll({
                 attributes: ["orderDate", "orderType", "orderPrice"],
                 where: {
                     orderDate: {
@@ -12,21 +21,31 @@ class OrderRepository{
                     },
                     userId: customerId
                 },
+                raw: true,
                 limit: pageSize,
                 offset: (pageNo - 1) * pageSize,
-                include: [
-                    {
-                        model: User,
-                        as: 'users',
-                        attributes: ["userName", "userClass"]
-                    },
-                ],
                 order: [
                     ['orderDate', 'DESC']
                 ]
-            })
+            });
+            
+            orderData.rows.map(element => {
+                obj = {
+                    ...element,
+                    userData,
+                };
+                arr.push(obj);
+            });
+            return arr;
         }else{
-            return await Order.findAll({
+            const userData = await User.findOne({
+                attributes: ["userName", "userClass"],
+                where: {
+                    userId: customerId
+                }
+            });
+
+            const orderData = await Order.findAndCountAll({
                 attributes: ["orderDate", "orderType", "orderPrice"],
                 where: {
                     orderDate: {
@@ -35,20 +54,23 @@ class OrderRepository{
                     orderType: orderType,
                     userId: customerId
                 },
+                raw: true,
                 limit: pageSize,
                 offset: (pageNo - 1) * pageSize,
-                include: [
-                    {
-                        model: User,
-                        as: 'users',
-                        attributes: ["userName", "userClass"]
-                    }
-                ],
                 order: [
                     ['orderDate', 'DESC']
                 ]
-            })
+            });
+            
+            orderData.rows.map(element => {
+                obj = {
+                    ...element,
+                    userData,
+                };
+                arr.push(obj);
+            });
+            return arr;
+            }
         }
-    }
 }
 export default OrderRepository;

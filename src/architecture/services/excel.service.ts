@@ -9,17 +9,16 @@ class ExcelService{
         this.excelRepository = new ExcelRepository();
     }
 
-    excelRegister = async (file1:string, file2:string) => {
-        const rocalFile1 = await fs.promises.readFile(file1, 'utf8');
-        const rocalFile2 = await fs.promises.readFile(file2, 'utf8');
+    excelRegister = async (customerFile:string, orderFile:string) => {
+        const customerLocal = await fs.promises.readFile(customerFile, 'utf8');
+        const orderLocal = await fs.promises.readFile(orderFile, 'utf8');
 
-        const jsonFile1 = await csvtojson().fromString(rocalFile1);
-        const jsonFile2 = await csvtojson().fromString(rocalFile2);
+        const customerJson = await csvtojson().fromString(customerLocal);
+        const orderJson = await csvtojson().fromString(orderLocal);
         
-        return{
-            result1: await this.excelRepository.file1Register(jsonFile1),
-            result2: await this.excelRepository.file2Register(jsonFile2)
-        }
+        await this.excelRepository.file1Register(customerJson),
+        await this.excelRepository.file2Register(orderJson)
+        
 
     }
 }
